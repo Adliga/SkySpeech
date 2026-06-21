@@ -11,7 +11,7 @@
 
       <div class="action-row">
         <button class="mic-btn" @click="startVoiceInput" title="Голосовой ввод">
-          <img src="/micro.png" class="mic-icon" />
+          <img src="/micro_white.png" class="mic-icon" />
         </button>
       </div>
 
@@ -70,7 +70,7 @@ function startVoiceInput() {
   }
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
   recognition = new SpeechRecognition()
-  recognition.lang = voiceStore.activeVoiceId.startsWith('ru') ? 'ru-RU' : 'en-US'
+  recognition.lang = 'ru-RU'
   recognition.interimResults = false
   recognition.maxAlternatives = 1
 

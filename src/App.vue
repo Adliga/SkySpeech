@@ -30,17 +30,23 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import VoicePanel from '@/components/VoicePanel.vue'
 import TextPanel from '@/components/TextPanel.vue'
 import AudioPlayer from '@/components/AudioPlayer.vue'
 import SettingsPanel from '@/components/SettingsPanel.vue'
 import { useAudioStore } from '@/stores/audioStore'
 import { useNotificationStore } from '@/stores/notificationStore'
+import { useVoiceStore } from '@/stores/voiceStore'
 
 const textPanelRef = ref(null)
 const audioStore = useAudioStore()
 const notificationStore = useNotificationStore()
+const voiceStore = useVoiceStore()
+
+onMounted(() => {
+  voiceStore.fetchVoices()
+})
 </script>
 
 <style scoped>

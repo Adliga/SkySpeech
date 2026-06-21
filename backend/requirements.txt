@@ -1,0 +1,10 @@
+# Core
+fastapi>=0.115.0
+uvicorn[standard]>=0.30.0
+
+# TTS (XTTS-v2, idiap fork with Python 3.12 support)
+coqui-tts @ git+https://github.com/idiap/coqui-ai-TTS.git
+
+# Audio
+soundfile>=0.12.0
+librosa>=0.10.0

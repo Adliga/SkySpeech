@@ -37,3 +37,20 @@ __screenshots__/
 
 # Vite
 *.timestamp-*-*.mjs
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Backend virtual environment
+backend/.venv/
+
+# Backend user data (generated voices, cloned voices, index)
+backend/data/cloned/
+backend/data/voices/*/
+backend/data/voices_index.json
+backend/data/test_output.wav
+
+# Temporary / scratch files
+backend/req.json

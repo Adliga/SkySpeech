@@ -7,7 +7,7 @@ import { useNotificationStore } from '@/stores/notificationStore'
 export const useCloneStore = defineStore('clone', () => {
   const isLoading = ref(false)
 
-  async function uploadAudio(audioFile) {
+  async function uploadAudio(audioFile, name) {
     isLoading.value = true
 
     try {
@@ -20,8 +20,9 @@ export const useCloneStore = defineStore('clone', () => {
       const voiceStore = useVoiceStore()
       voiceStore.addClonedVoice({
         id: data.voice_id,
-        displayName: 'Мой голос',
-        icon: '-',
+        displayName: name,
+        icon: '',
+        ready: true,
       })
       const notificationStore = useNotificationStore()
       notificationStore.show('Голос добавлен!', 'success', 3000)

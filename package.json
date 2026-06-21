@@ -4,7 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "predev": "powershell -NoProfile -Command \"try{netstat -ano|findstr ':5173 '|ForEach-Object{$_ -split '\\s+'|select -Last 1}|ForEach-Object{taskkill /f /pid $_ 2>$null 1>$null}}catch{}; exit 0\"",
     "dev": "vite",
+    "dev:backend": "powershell -NoProfile -Command \"try{netstat -ano|findstr ':8000 '|ForEach-Object{$_ -split '\\s+'|select -Last 1}|ForEach-Object{taskkill /f /pid $_ 2>$null 1>$null}}catch{}; exit 0\" && cd backend && .\\.venv\\Scripts\\python.exe run.py",
+    "dev:all": "powershell -NoProfile -Command \"try{netstat -ano|findstr ':5173 '|ForEach-Object{$_ -split '\\s+'|select -Last 1}|ForEach-Object{taskkill /f /pid $_ 2>$null 1>$null}}catch{}; try{netstat -ano|findstr ':8000 '|ForEach-Object{$_ -split '\\s+'|select -Last 1}|ForEach-Object{taskkill /f /pid $_ 2>$null 1>$null}}catch{}; exit 0\" && start cmd /c \"npm run dev:backend\" & npm run dev",
     "build": "vite build",
     "preview": "vite preview"
   },

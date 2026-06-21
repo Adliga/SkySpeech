@@ -3,31 +3,36 @@ import { ref } from 'vue'
 import api from '@/api/api'
 
 export const useVoiceStore = defineStore('voice', () => {
-  const standardVoices = ref([
-    { name: 'ru-Male', displayName: 'Мужской (Рус)', icon: '-' },
-    { name: 'ru-Female', displayName: 'Женский (Рус)', icon: '-' },
-    { name: 'en-US-Male', displayName: 'English Male', icon: '-' },
-    { name: 'en-US-Female', displayName: 'English Female', icon: '-' },
-    { name: 'robot', displayName: 'Робот', icon: '-' },
-  ])
-
+  const standardVoices = ref([])
   const clonedVoices = ref([])
-  const activeVoiceId = ref('ru-Male')
+  const activeVoiceId = ref('')
   const isLoading = ref(false)
   const error = ref('')
 
+  const FALLBACK_VOICES = [
+    { name: 'child', displayName: 'Детский', icon: '', ready: true },
+    { name: 'female_3', displayName: 'Женский', icon: '', ready: true },
+    { name: 'speaker_3', displayName: 'Мужской_1', icon: '', ready: true },
+    { name: 'speaker_4', displayName: 'Мужской_2', icon: '', ready: true },
+    { name: 'speaker_5', displayName: 'Мужской_3', icon: '', ready: true },
+  ]
+
+  const initVoiceId = FALLBACK_VOICES[0].name
+
+  standardVoices.value = FALLBACK_VOICES
+  activeVoiceId.value = initVoiceId
+
   async function fetchVoices() {
-    isLoading.value = true
-    error.value = ''
     try {
-      const { data } = await api.post('/voices/standard')
-      standardVoices.value = data.voices
-    } catch (e) {
-      if (e.code !== 'ERR_NETWORK') {
-        error.value = 'Не удалось загрузить голоса с сервера'
+      const { data } = await api.post('/voices/standard', {}, { timeout: 8000 })
+      if (data.voices && data.voices.length > 0) {
+        standardVoices.value = data.voices
+        if (!data.voices.some(v => v.name === activeVoiceId.value)) {
+          activeVoiceId.value = data.voices[0].name
+        }
       }
-    } finally {
-      isLoading.value = false
+    } catch {
+      
     }
   }
 
